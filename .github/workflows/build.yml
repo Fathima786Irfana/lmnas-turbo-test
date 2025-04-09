@@ -59,3 +59,4 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/test:v2
           build-args: |
             BUILD_ENV_CONTENT=${{ env.BUILD_ENV_CONTENT }}
+            
