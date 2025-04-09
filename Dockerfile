@@ -17,7 +17,7 @@ FROM deps AS build
 COPY . .
 ARG BUILD_ENV_CONTENT
 RUN pnpm get-app braccoli-site-2.0 && pnpm get-app braccoli-bites
-RUN echo "$BUILD_ENV_CONTENT" > .env.temp && \
+RUN echo -e "$BUILD_ENV_CONTENT" > .env.temp && \
     cp .env.temp apps/braccoli-site-2.0/.env && \
     cp .env.temp apps/braccoli-bites/.env
 RUN pnpm build
