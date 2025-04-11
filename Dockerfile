@@ -4,8 +4,8 @@ FROM node:20-alpine AS base
 # Set working directory
 WORKDIR /app
 
-# Install Git and PNPM globally
-RUN apk add --no-cache git && npm install -g pnpm@latest
+# Install Git, Vim and PNPM globally
+RUN apk add --no-cache git vim && npm install -g pnpm@latest
 
 # Install dependencies
 FROM base AS deps

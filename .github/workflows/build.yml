@@ -14,23 +14,15 @@ jobs:
 
       - name: Read sampleenv and generate .env dynamically
         id: generate_env
-        env:
-          SUBSCRIBE_URL: ${{ secrets.SUBSCRIBE_URL }}
-          AUTH_KEY: ${{ secrets.AUTH_KEY }}
+         env:
+          SUBSCRIBE_URL: ${{ github.ref_name == 'main' && secrets.MAIN_SUBSCRIBE_URL || secrets.DEVELOP_SUBSCRIBE_URL }}
+          AUTH_KEY: ${{ github.ref_name == 'main' && secrets.MAIN_AUTH_KEY || secrets.DEVELOP_AUTH_KEY }}
         run: |
-          echo "Generating build.env..."
-          touch build.env
-
-          while IFS='=' read -r raw_key _; do
-            key=$(echo "$raw_key" | xargs)  # Trim whitespace
-            if [ -n "$key" ]; then
-              value="${!key}"
-              if [ -z "$value" ]; then
-                echo "⚠️ $key is missing or empty"
-              fi
-              echo "$key=$value" >> build.env
-            fi
-          done < sampleenv
+          cp sampleenv build.env
+          while IFS='=' read -r key _; do
+            value="${!key}"
+            sed -i "s|^$key=.*|$key=$value|" build.env
+          done < build.env
 
           echo ""
           echo "🟢 Generated build.env content:"
