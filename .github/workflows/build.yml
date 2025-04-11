@@ -14,7 +14,7 @@ jobs:
 
       - name: Read sampleenv and generate .env dynamically
         id: generate_env
-         env:
+        env:
           SUBSCRIBE_URL: ${{ github.ref_name == 'main' && secrets.MAIN_SUBSCRIBE_URL || secrets.DEVELOP_SUBSCRIBE_URL }}
           AUTH_KEY: ${{ github.ref_name == 'main' && secrets.MAIN_AUTH_KEY || secrets.DEVELOP_AUTH_KEY }}
         run: |
